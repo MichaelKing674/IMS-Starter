@@ -2,7 +2,7 @@ package com.qa.ims.persistence.domain;
 
 public class Customer {
 
-	private Long id;
+	private int id;
 	private String firstName;
 	private String surname;
 
@@ -11,17 +11,17 @@ public class Customer {
 		this.setSurname(surname);
 	}
 
-	public Customer(Long id, String firstName, String surname) {
+	public Customer(int id, String firstName, String surname) {
 		this.setId(id);
 		this.setFirstName(firstName);
 		this.setSurname(surname);
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -51,7 +51,6 @@ public class Customer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		return result;
 	}
@@ -70,10 +69,10 @@ public class Customer {
 				return false;
 		} else if (!getFirstName().equals(other.getFirstName()))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (id == 0) {
+			if (other.id != 0)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (id !=(other.id))
 			return false;
 		if (surname == null) {
 			if (other.surname != null)

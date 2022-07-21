@@ -37,6 +37,10 @@ public class Utils {
 	public String getString() {
 		return scanner.nextLine();
 	}
+	
+	public int getInt() {
+		return scanner.nextInt();
+	}
 
 	public Double getDouble() {
 		String input = null;
@@ -50,6 +54,11 @@ public class Utils {
 			}
 		} while (doubleInput == null);
 		return doubleInput;
+	}
+
+	public Object getString(Object any) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
