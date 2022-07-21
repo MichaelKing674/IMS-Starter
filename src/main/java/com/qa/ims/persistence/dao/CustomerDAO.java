@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class CustomerDAO implements Dao<Customer> {
 
 	@Override
 	public Customer modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long id = resultSet.getLong("id");
+		int id = resultSet.getInt("id");
 		String firstName = resultSet.getString("first_name");
 		String surname = resultSet.getString("surname");
 		return new Customer(id, firstName, surname);
@@ -28,7 +29,7 @@ public class CustomerDAO implements Dao<Customer> {
 
 	/**
 	 * Reads all customers from the database
-	 * 
+	 *  
 	 * @return A list of customers
 	 */
 	@Override
@@ -70,9 +71,10 @@ public class CustomerDAO implements Dao<Customer> {
 	public Customer create(Customer customer) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO customers(first_name, surname) VALUES (?, ?)");) {
-			statement.setString(1, customer.getFirstName());
-			statement.setString(2, customer.getSurname());
+						.prepareStatement("INSERT INTO customers(id,first_name, surname) VALUES (?, ?, ?)");) {
+			statement.setInt(1, customer.getId());
+			statement.setString(2, customer.getFirstName());
+			statement.setString(3, customer.getSurname());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -83,10 +85,10 @@ public class CustomerDAO implements Dao<Customer> {
 	}
 
 	@Override
-	public Customer read(Long id) {
+	public Customer read(int id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT * FROM customers WHERE id = ?");) {
-			statement.setLong(1, id);
+			statement.setInt(1, id);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
 				return modelFromResultSet(resultSet);
@@ -128,10 +130,10 @@ public class CustomerDAO implements Dao<Customer> {
 	 * @param id - id of the customer
 	 */
 	@Override
-	public int delete(long id) {
+	public int delete(int id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM customers WHERE id = ?");) {
-			statement.setLong(1, id);
+			statement.setInt(1, id);
 			return statement.executeUpdate();
 		} catch (Exception e) {
 			LOGGER.debug(e);
