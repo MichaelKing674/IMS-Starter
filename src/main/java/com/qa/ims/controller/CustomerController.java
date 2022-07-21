@@ -2,6 +2,7 @@ package com.qa.ims.controller;
 
 import java.util.List;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,11 +44,14 @@ public class CustomerController implements CrudController<Customer> {
 	 */
 	@Override
 	public Customer create() {
+		LOGGER.info("Please enter an ID");
+		int id = utils.getInt();
 		LOGGER.info("Please enter a first name");
+		String buffer = utils.getString();
 		String firstName = utils.getString();
 		LOGGER.info("Please enter a surname");
 		String surname = utils.getString();
-		Customer customer = customerDAO.create(new Customer(firstName, surname));
+		Customer customer = customerDAO.create(new Customer(id, firstName, surname));
 		LOGGER.info("Customer created");
 		return customer;
 	}
@@ -58,8 +62,9 @@ public class CustomerController implements CrudController<Customer> {
 	@Override
 	public Customer update() {
 		LOGGER.info("Please enter the id of the customer you would like to update");
-		Long id = utils.getLong();
+		int id = utils.getInt();
 		LOGGER.info("Please enter a first name");
+		String buffer = utils.getString();
 		String firstName = utils.getString();
 		LOGGER.info("Please enter a surname");
 		String surname = utils.getString();
@@ -76,7 +81,7 @@ public class CustomerController implements CrudController<Customer> {
 	@Override
 	public int delete() {
 		LOGGER.info("Please enter the id of the customer you would like to delete");
-		Long id = utils.getLong();
+		int id = utils.getInt();
 		return customerDAO.delete(id);
 	}
 
