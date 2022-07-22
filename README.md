@@ -34,8 +34,26 @@ Then download this as a zip file to a location of your choosing
 Download ZIP
 ```
 
-Extract the .zip file, and look for ims-0.0.1-jar-with-dependencies.jar inside the target folder.
-Running this will bring up the application for you to use.
+Extract the .zip file. 
+
+Install Maven dependencies in your POM file - https://mvnrepository.com/artifact/junit/junit/4.12
+
+Then type the following command in your command prompt window whilst in the root directory of the project:
+
+```
+mvn clean package
+```
+This will package the project and create a runnable .jar file in the target folder that has just been created.
+
+To run the application, use the command prompt and type the following:
+
+```
+cd target
+```
+```
+java -jar ims-0.0.1-jar-with-dependencies.jar
+```
+You can press TAB at any time to auto complete the command.
 
 ## Running the tests
 
