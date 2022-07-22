@@ -1,4 +1,4 @@
-Coverage: 65.7%
+Coverage: 64.3%
 # IMS Project
 
 This product is a basic information management system that will allow the user to interact with a provided database; they will be able to use CRUD functions ( create, read, update, delete ) to manipulate the data.
