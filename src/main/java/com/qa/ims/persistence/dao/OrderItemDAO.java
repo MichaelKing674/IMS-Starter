@@ -38,7 +38,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
 	public List<OrderItem> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT orderitem_id, i.item_id, order_id, quantity, SUM(price * quantity) AS s FROM orderitems oi JOIN items i ON i.item_id = oi.item_id");) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orderitems ORDER BY order_id DESC LIMIT 1");) {
 			List<OrderItem> orderItems = new ArrayList<>();
 			while (resultSet.next()) {
 				orderItems.add(modelFromResultSet(resultSet));
@@ -51,21 +51,6 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		return new ArrayList<>();
 	}
 	
-	public double priceSum (int id) {
-        try (Connection connection = DBUtils.getInstance().getConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT SUM(price * quantity) AS s FROM orderitems oi JOIN items i ON i.item_id = oi.item_id WHERE oi.order_id = ?;");) {
-            statement.setLong(1, id);
-            try (ResultSet resultSet = statement.executeQuery();) {
-                resultSet.next();
-                double sum = resultSet.getDouble("s");
-                return sum;
-            }
-        } catch (Exception e) {
-            LOGGER.debug(e);
-            LOGGER.error(e.getMessage());
-        }
-        return 0;
-    }
 
 	public OrderItem readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
@@ -159,10 +144,23 @@ public class OrderItemDAO implements Dao<OrderItem> {
 		}
 		return 0;
 	}
-	
-	public double cost(double price, int quantity) {
-		double cost = price * quantity;
-		return cost;
+
+	public List<OrderItem> readAll(int id) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("SELECT orderitem_id, i.item_id, order_id, quantity, SUM(price * quantity) AS s FROM orderitems oi JOIN items i ON i.item_id = oi.item_id WHERE order_id = ?");) {
+				statement.setInt(1, id);
+				ResultSet resultSet = statement.executeQuery();
+			List<OrderItem> orderItems = new ArrayList<>();
+			while (resultSet.next()) {
+				orderItems.add(modelFromResultSet(resultSet));
+			}
+			return orderItems; 
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
 	}
+	
 
 }
