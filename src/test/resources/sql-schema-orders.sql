@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS `orders`;
+
+CREATE TABLE IF NOT EXISTS `orders` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+	`fk_customer_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `fk_item_id` INT(11) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`id`)
+);
