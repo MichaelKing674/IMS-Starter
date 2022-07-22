@@ -27,11 +27,23 @@ public class OrderItemController implements CrudController<OrderItem> {
 	 */
 	@Override
 	public List<OrderItem> readAll() {
+		LOGGER.info("Would you like the cost of an order");
+		String answer1 = utils.getString();
+		if (answer1.equals("yes")) {
+			LOGGER.info("What is the order id you'd like the cost for");
+			int answer2 = utils.getInt();
+			List<OrderItem> orderItems = orderItemDAO.readAll(answer2);
+			for (OrderItem orderItem : orderItems) {
+				LOGGER.info(orderItem);
+			}
+			return orderItems;
+		} else {
 		List<OrderItem> orderItems = orderItemDAO.readAll();
 		for (OrderItem orderItem : orderItems) {
 			LOGGER.info(orderItem);
 		}
 		return orderItems;
+		}
 	}
 
 	/**
